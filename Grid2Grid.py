@@ -48,15 +48,27 @@ device.log(message='Setting sequenceId variables', message_type='success')
 sequenceAfter1stGridMoveId = app.find_sequence_by_name(name=sequenceAfter1stGridMove)
 sequenceAfter2ndGridMoveId = app.find_sequence_by_name(name=sequenceAfter2ndGridMove)
 
+# Set constant Z position
+zPosGrid1 = startZGrid1
+zPosGrid2 = startZGrid2
+
 device.log(message='Starting first grid row loop', message_type='success')
 
 # Start the first grid movement
 for r in range(rowsGrid1):
-    # Initialise or increment x, z position of botgh grids
-    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
-    zPosGrid1 = startZGrid1
-    xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * r)
-    zPosGrid2 = startZGrid2
+    
+    # Initialise or increment x position of both grids
+    if alternateInBetweenGrid1:
+        #todo
+        xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
+    else
+        xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
+
+    if alternateInBetweenGrid2:
+        #todo
+        xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * r)
+    else
+        xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * r)
 
     # Set both grids y position back to the begining of the row
     yPosGrid1 = startYGrid1
