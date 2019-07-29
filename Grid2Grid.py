@@ -31,6 +31,7 @@ startXGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startXGri
 startYGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startYGrid1', value_type=float)
 startZGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startZGrid1', value_type=float)
 sequenceAfter1stGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter1stGridMove', value_type=str)
+alternateInBetweenGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid1', value_type=bool)
 
 device.log(message='Setting second grid variables', message_type='success')
 rowsGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='rowsGrid2', value_type=int)
@@ -41,7 +42,7 @@ startXGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startXGri
 startYGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startYGrid2', value_type=float)
 startZGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startZGrid2', value_type=float)
 sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter2ndGridMove', value_type=str)
-alternateInBetween = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetween', value_type=bool)
+alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting sequenceId variables', message_type='success')
 sequenceAfter1stGridMoveId = app.find_sequence_by_name(name=sequenceAfter1stGridMove)

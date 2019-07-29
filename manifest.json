@@ -18,6 +18,7 @@
  {"name": "startYGrid1", "label": "Where to start the y axis from in first grid:", "value": "0"},
  {"name": "startZGrid1", "label": "Where to start the z axis from in first grid:", "value": "0"},
  {"name": "sequenceAfter1stGridMove", "label": "Sequence to call after moving to a cell on the first grid:", "value": ""},
+ {"name": "alternateInBetweenGrid1", "label": "Whether to calculate alternate in between cells in first grid:", "value": "false"},
  {"name": "rowsGrid2", "label": "Number of rows in second grid (0-20):", "value": "0"},
  {"name": "colsGrid2", "label": "Number of columns in second grid (0-20):", "value": "0"},
  {"name": "spaceBetweenRowsGrid2", "label": "The number of millimeters between each row to move the x axis in second grid:", "value": "1"},
@@ -26,6 +27,6 @@
  {"name": "startYGrid2", "label": "Where to start the y axis from in second grid:", "value": "0"},
  {"name": "startZGrid2", "label": "Where to start the z axis from in second grid:", "value": "0"},
  {"name": "sequenceAfter2ndGridMove", "label": "Sequence to call after moving to a cell on the second grid:", "value": ""},
- {"name": "alternateInBetween", "label": "Whether to calculate alternate in between cells in second grid:", "value": "false"}
+ {"name": "alternateInBetweenGrid2", "label": "Whether to calculate alternate in between cells in second grid:", "value": "false"}
  ]
 }
