@@ -1,0 +1,31 @@
+{
+ "package": "Grid2Grid",
+ "language": "python",
+ "author": "whitecapsO",
+ "description": "Generic Farmware function to run sequences across two grids",
+ "version": "1.0.0",
+ "min_os_version_major": 6,
+ "url": "https://raw.githubusercontent.com/whitecapsO/Grid2Grid/master/manifest.json",
+ "zip": "https://github.com/whitecapsO/Grid2Grid/archive/master.zip",
+ "executable": "python",
+ "args": ["Grid2Grid-master/Grid2Grid.py"],
+ "config": [
+ {"name": "rowsGrid1", "label": "Number of rows in first grid (0-20):", "value": "0"},
+ {"name": "colsGrid1", "label": "Number of columns in first grid (0-20):", "value": "0"},
+ {"name": "spaceBetweenRowsGrid1", "label": "The number of millimeters between each row to move the x axis in first grid:", "value": "1"},
+ {"name": "spaceBetweenColsGrid1", "label": "The number of millimeters between each column to move the y axis in first grid:", "value": "1"},
+ {"name": "startXGrid1", "label": "Where to start the x axis from in first grid:", "value": "0"},
+ {"name": "startYGrid1", "label": "Where to start the y axis from in first grid:", "value": "0"},
+ {"name": "startZGrid1", "label": "Where to start the z axis from in first grid:", "value": "0"},
+ {"name": "sequenceAfter1stGridMove", "label": "Sequence to call after moving to a cell on the first grid:", "value": ""},
+ {"name": "rowsGrid2", "label": "Number of rows in second grid (0-20):", "value": "0"},
+ {"name": "colsGrid2", "label": "Number of columns in second grid (0-20):", "value": "0"},
+ {"name": "spaceBetweenRowsGrid2", "label": "The number of millimeters between each row to move the x axis in second grid:", "value": "1"},
+ {"name": "spaceBetweenColsGrid2", "label": "The number of millimeters between each column to move the y axis in second grid:", "value": "1"},
+ {"name": "startXGrid2", "label": "Where to start the x axis from in second grid:", "value": "0"},
+ {"name": "startYGrid2", "label": "Where to start the y axis from in second grid:", "value": "0"},
+ {"name": "startZGrid2", "label": "Where to start the z axis from in second grid:", "value": "0"},
+ {"name": "sequenceAfter2ndGridMove", "label": "Sequence to call after moving to a cell on the second grid:", "value": ""},
+ {"name": "alternateInBetween", "label": "Whether to calculate alternate in between cells in second grid:", "value": "false"}
+ ]
+}
