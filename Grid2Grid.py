@@ -1,4 +1,7 @@
-from farmware_tools import app, device, get_config_value
+from farmware_tools import app
+from farmware_tools import device
+from farmware_tools import env
+from farmware_tools import get_config_value
 
 # 1. Pick up tool
 # 2. Move to first position first grid
@@ -56,8 +59,15 @@ sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_na
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting sequenceId variables', message_type='success')
-sequenceAfter1stGridMoveId = app.find_sequence_by_name(name=sequenceAfter1stGridMove)
-sequenceAfter2ndGridMoveId = app.find_sequence_by_name(name=sequenceAfter2ndGridMove)
+if sequenceAfter1stGridMove != "":
+    sequenceAfter1stGridMoveId = app.find_sequence_by_name(name=sequenceAfter1stGridMove)
+else :
+    sequenceAfter1stGridMoveId = 0
+
+if sequenceAfter2ndGridMove != "":
+    sequenceAfter2ndGridMoveId = app.find_sequence_by_name(name=sequenceAfter2ndGridMove)
+else :
+    sequenceAfter2ndGridMoveId = 0
 
 # Set constant Z position
 zPosGrid1 = startZGrid1
@@ -72,13 +82,13 @@ for r in range(rowsGrid1):
     if alternateInBetweenGrid1:
         #todo
         xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
-    else
+    else :
         xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
 
     if alternateInBetweenGrid2:
         #todo
         xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * r)
-    else
+    else :
         xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * r)
 
     # Set both grids y position back to the begining of the row
