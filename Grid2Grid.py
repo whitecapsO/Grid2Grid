@@ -11,16 +11,27 @@ from farmware_tools import app, device, get_config_value
 #todo implement alternateInBetween calculations for x position
 
 # Values for testing
-# First grid
-# rows = 4
-# cols = 7 
-# spaceBetweenRows = 47
-# spaceBetweenColumns = 45 
-# startX = 310.2
-# startY = 563.8
-# startZ = 210.96
-# sequenceAfter1stGridMove = 'PickUpSeed' 
-# sequenceAfter2ndGridMove = 'PlantSeed'
+# *** First grid ***
+# rowsGrid1 = 4
+# colsGrid1 = 7 
+# spaceBetweenRowsGrid1 = 47
+# spaceBetweenColsGrid1 = 45 
+# startXGrid1 = 310.2
+# startYGrid1 = 563.8
+# startZGrid1 = 210.96
+# sequenceAfter1stGridMove = '' 
+# alternateInBetweenGrid1 = false
+# 
+# rowsGrid2 = 4
+# colsGrid2 = 7
+# spaceBetweenRowsGrid2 = 140
+# spaceBetweenColsGrid2 = 200 
+# startXGrid2 = 
+# startYGrid2 = 
+# startZGrid2 = 
+# sequenceAfter2ndGridMove = '' 
+# alternateInBetweenGrid2 = false
+
 
 device.log(message='Setting first grid variables', message_type='success')
 rowsGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='rowsGrid1', value_type=int)
