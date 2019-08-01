@@ -153,9 +153,9 @@ for r in range(rowsGrid1):
         # Increment y position for grid 1
         yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
 
-        # Increment the indexes for grid 2
-        if colXGrid2Index < colsGrid2 :
-            colXGrid2Index += 1
-        else :
-            colXGrid2Index = 0
-            rowXGrid2Index += 1
+        # # Increment the indexes for grid 2
+        # if colXGrid2Index < colsGrid2 :
+        #     colXGrid2Index += 1
+        # else :
+        #     colXGrid2Index = 0
+        #     rowXGrid2Index += 1
