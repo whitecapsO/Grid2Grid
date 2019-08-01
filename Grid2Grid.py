@@ -121,13 +121,13 @@ for r in range(rowsGrid1):
             device.execute(sequenceAfter1stGridMoveId)
 
         # Set the x and y positions on the second grid
-            if alternateInBetweenGrid2:
-                #todo
-                xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
-                yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
-            else :
-                xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
-                yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
+        if alternateInBetweenGrid2:
+            #todo
+            xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
+            yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
+        else :
+            xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
+            yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
 
         # 2nd grid move
         device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
