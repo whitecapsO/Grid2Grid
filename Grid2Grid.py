@@ -59,11 +59,12 @@ sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_na
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting variables', message_type='success')
-device.log(message='Change 10', message_type='success')
+device.log(message='Change 1', message_type='success')
 
 # Initialise row (X) and column (Y) indexes for the second grid
 rowGrid2Index = 0
 colGrid2Index = 0
+
 # Set constant Z positions
 zPosGrid1 = startZGrid1
 zPosGrid2 = startZGrid2
@@ -84,18 +85,23 @@ else :
 device.log(message='Starting first grid row loop', message_type='success')
 
 # Start the first grid movement
-for r in range(rowsGrid1):
+for rowGrid1Index in range(rowsGrid1):
     
-    # Initialise or increment x position of both grids
-    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
+    # Initialise or increment x position of first grid if alternateInBetween assume the first 
+    # position is not an alternateInBetween
+    if alternateInBetweenGrid1 :
+        if rowGrid1Index != 0 or (rowGrid1Index % 2) > 0 :
+             device.log(message='Grid 1 alternateInBetween', message_type='success')
+        else :
+            xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
+    else :
+        xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
-    # Set both first grids y position back to the begining of the row
+    # Set first grids y position back to the first column
     yPosGrid1 = startYGrid1
 
-    device.log(message='Set positions', message_type='success')
-
     # Todo fix as rows and column totals will be different numbers in both grids
-    for c in range(colsGrid1):
+    for colGrid1Index in range(colsGrid1):
         # 1st grid move moveAbsolute(xPos, yPos, startZ)
         device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
         device.move_absolute(
@@ -121,7 +127,14 @@ for r in range(rowsGrid1):
             colGrid2Index = 0
 
         # Set the x and y positions on the second grid
-        xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
+        if alternateInBetweenGrid2 :
+            if rowGrid2Index != 0 or (rowGrid2Index % 2) > 0 :
+                device.log(message='Grid 2 alternateInBetween', message_type='success')
+            else :
+                xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
+        else :
+            xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
+        
         yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colGrid2Index)
 
         # 2nd grid move
