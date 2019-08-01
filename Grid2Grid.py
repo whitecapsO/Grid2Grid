@@ -58,8 +58,7 @@ startZGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startZGri
 sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter2ndGridMove', value_type=str)
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=int)
 
-device.log(message='Setting variables', message_type='success')
-device.log(message='Change 1', message_type='success')
+device.log(message='Starting Grid2Grid', message_type='success')
 
 # Initialise row (X) and column (Y) indexes for the second grid
 rowGrid2Index = 0
@@ -69,7 +68,7 @@ colGrid2Index = 0
 zPosGrid1 = startZGrid1
 zPosGrid2 = startZGrid2
 
-
+# Get sequence IDs if name given
 device.log(message='Setting sequenceId variables', message_type='success')
 if sequenceAfter1stGridMove != "":
     sequenceAfter1stGridMoveId = app.find_sequence_by_name(name=sequenceAfter1stGridMove)
@@ -89,7 +88,6 @@ for rowGrid1Index in range(rowsGrid1):
     # Set first grids y position back to the first column
     yPosGrid1 = startYGrid1
 
-    # Todo fix as rows and column totals will be different numbers in both grids
     for colGrid1Index in range(colsGrid1):
         # Initialise or increment x position of first grid if alternateInBetween assume the first 
         # column is not an alternateInBetween
@@ -103,19 +101,22 @@ for rowGrid1Index in range(rowsGrid1):
             xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
 
-        # 1st grid move moveAbsolute(xPos, yPos, startZ)
-        device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
-        device.move_absolute(
-            {
-                'kind': 'coordinate',
-                'args': {'x': xPosGrid1, 'y': yPosGrid1, 'z': zPosGrid1}
-            },
-            100,
-            {
-                'kind': 'coordinate',
-                'args': {'x': 0, 'y': 0, 'z': 0}
-            }
-        )
+        # 1st grid move if not alternateInBetweenGrid1 and on last row
+        if (alternateInBetweenGrid1 == 0 or (alternateInBetweenGrid1 == 1 and rowGrid1Index < rowsGrid1 - 1) : 
+            device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
+            device.move_absolute(
+                {
+                    'kind': 'coordinate',
+                    'args': {'x': xPosGrid1, 'y': yPosGrid1, 'z': zPosGrid1}
+                },
+                100,
+                {
+                    'kind': 'coordinate',
+                    'args': {'x': 0, 'y': 0, 'z': 0}
+                }
+            )
+        else :
+            device.log(message='Grid 1 alternateInBetween so abort last position', message_type='success')
 
         # Run sequence after 1st grid move
         if sequenceAfter1stGridMove != "":
@@ -140,19 +141,22 @@ for rowGrid1Index in range(rowsGrid1):
         
         yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colGrid2Index)
 
-        # 2nd grid move
-        device.log('Grid 2 moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
-        device.move_absolute(
-            {
-                'kind': 'coordinate',
-                'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
-            },
-            100,
-            {
-                'kind': 'coordinate',
-                'args': {'x': 0, 'y': 0, 'z': 0}
-            }
-        )
+        # 1st grid move if not alternateInBetweenGrid1 and on last row
+        if (alternateInBetweenGrid2 == 0 or (alternateInBetweenGrid2 == 1 and rowGrid2Index < rowsGrid2 - 1) : 
+            device.log('Grid 2 moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
+            device.move_absolute(
+                {
+                    'kind': 'coordinate',
+                    'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
+                },
+                100,
+                {
+                    'kind': 'coordinate',
+                    'args': {'x': 0, 'y': 0, 'z': 0}
+                }
+            )
+        else :
+            device.log(message='Grid 2 alternateInBetween so abort last position', message_type='success')
 
         # Run sequence after 2nd grid move
         if sequenceAfter2ndGridMove != "":
