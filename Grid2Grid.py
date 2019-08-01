@@ -59,7 +59,7 @@ sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_na
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting variables', message_type='success')
-device.log(message='Change 1', message_type='success')
+device.log(message='Change 2', message_type='success')
 # Initialise row (X) and column (Y) indexes for the second grid
 rowXGrid2Index = 0
 colYGrid2Index = 0
@@ -117,8 +117,8 @@ for r in range(rowsGrid1):
             device.execute(sequenceAfter1stGridMoveId)
 
         # Set the x and y positions on the second grid
-        xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
-        yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
+        # xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
+        # yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
 
         # 2nd grid move
         # device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
