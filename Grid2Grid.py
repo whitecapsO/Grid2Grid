@@ -102,7 +102,7 @@ for rowGrid1Index in range(rowsGrid1):
 
 
         # 1st grid move if not alternateInBetweenGrid1 and on last row
-        if (alternateInBetweenGrid1 == 0 or (alternateInBetweenGrid1 == 1 and rowGrid1Index < rowsGrid1 - 1) : 
+        if (alternateInBetweenGrid1 == 0 or (alternateInBetweenGrid1 == 1 and rowGrid1Index < rowsGrid1 - 1)) : 
             device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
             device.move_absolute(
                 {
@@ -142,7 +142,7 @@ for rowGrid1Index in range(rowsGrid1):
         yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colGrid2Index)
 
         # 1st grid move if not alternateInBetweenGrid1 and on last row
-        if (alternateInBetweenGrid2 == 0 or (alternateInBetweenGrid2 == 1 and rowGrid2Index < rowsGrid2 - 1) : 
+        if (alternateInBetweenGrid2 == 0 or (alternateInBetweenGrid2 == 1 and rowGrid2Index < rowsGrid2 - 1)) : 
             device.log('Grid 2 moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
             device.move_absolute(
                 {
