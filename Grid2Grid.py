@@ -85,12 +85,7 @@ device.log(message='Starting first grid row loop', message_type='success')
 for r in range(rowsGrid1):
     
     # Initialise or increment x position of both grids
-    if alternateInBetweenGrid1:
-        #todo
-        xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r) # todo
-    else :
-        xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
-
+    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * r)
 
     # Set both first grids y position back to the begining of the row
     yPosGrid1 = startYGrid1
@@ -121,13 +116,8 @@ for r in range(rowsGrid1):
             device.execute(sequenceAfter1stGridMoveId)
 
         # Set the x and y positions on the second grid
-        if alternateInBetweenGrid2:
-            #todo
-            xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
-            yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
-        else :
-            xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
-            yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
+        xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
+        yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
 
         # 2nd grid move
         device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
