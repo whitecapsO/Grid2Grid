@@ -45,7 +45,7 @@ startXGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startXGri
 startYGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startYGrid1', value_type=float)
 startZGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startZGrid1', value_type=float)
 sequenceAfter1stGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter1stGridMove', value_type=str)
-alternateInBetweenGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid1', value_type=bool)
+alternateInBetweenGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid1', value_type=int)
 
 device.log(message='Setting second grid variables', message_type='success')
 rowsGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='rowsGrid2', value_type=int)
@@ -56,12 +56,10 @@ startXGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startXGri
 startYGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startYGrid2', value_type=float)
 startZGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='startZGrid2', value_type=float)
 sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter2ndGridMove', value_type=str)
-alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
+alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=int)
 
 device.log(message='Setting variables', message_type='success')
 device.log(message='Change 1', message_type='success')
-device.log(message='alternateInBetweenGrid1: ' + str(alternateInBetweenGrid1), message_type='success')
-device.log(message='alternateInBetweenGrid2: ' + str(alternateInBetweenGrid2), message_type='success')
 
 # Initialise row (X) and column (Y) indexes for the second grid
 rowGrid2Index = 0
@@ -91,7 +89,7 @@ for rowGrid1Index in range(rowsGrid1):
     
     # Initialise or increment x position of first grid if alternateInBetween assume the first 
     # position is not an alternateInBetween
-    if alternateInBetweenGrid1 :
+    if alternateInBetweenGrid1 == 1 :
         if rowGrid1Index != 0 or (rowGrid1Index % 2) > 0 :
              device.log(message='Grid 1 alternateInBetween', message_type='success')
         else :
@@ -129,7 +127,7 @@ for rowGrid1Index in range(rowsGrid1):
             colGrid2Index = 0
 
         # Set the x and y positions on the second grid
-        if alternateInBetweenGrid2 :
+        if alternateInBetweenGrid2 == 1 :
             if rowGrid2Index != 0 or (rowGrid2Index % 2) > 0 :
                 device.log(message='Grid 2 alternateInBetween', message_type='success')
             else :
