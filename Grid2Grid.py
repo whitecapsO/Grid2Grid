@@ -59,7 +59,7 @@ sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_na
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting variables', message_type='success')
-device.log(message='Change 9', message_type='success')
+device.log(message='Change 10', message_type='success')
 
 # Initialise row (X) and column (Y) indexes for the second grid
 rowGrid2Index = 0
@@ -97,9 +97,7 @@ for r in range(rowsGrid1):
     # Todo fix as rows and column totals will be different numbers in both grids
     for c in range(colsGrid1):
         # 1st grid move moveAbsolute(xPos, yPos, startZ)
-        device.log('rowXGrid1Index: ' + str(r), 'success', ['toast'])
-        device.log('colXGrid1Index: ' + str(c), 'success', ['toast'])
-        device.log('Moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
+        device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
         device.move_absolute(
             {
                 'kind': 'coordinate',
@@ -127,9 +125,7 @@ for r in range(rowsGrid1):
         yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colGrid2Index)
 
         # 2nd grid move
-        device.log('rowGrid2Index: ' + str(rowGrid2Index), 'success', ['toast'])
-        device.log('colGrid2Index: ' + str(colGrid2Index), 'success', ['toast'])
-        device.log('Moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
+        device.log('Grid 2 moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
         device.move_absolute(
             {
                 'kind': 'coordinate',
