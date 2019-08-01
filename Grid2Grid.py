@@ -59,6 +59,7 @@ sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_na
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting variables', message_type='success')
+device.log(message='Change 1', message_type='success')
 # Initialise row (X) and column (Y) indexes for the second grid
 rowXGrid2Index = 0
 colYGrid2Index = 0
