@@ -11,7 +11,9 @@ from farmware_tools import get_config_value
 # 6. Move to second position first grid
 # 7. Repeat
 
-#todo implement alternateInBetween calculations for x position
+#TODO if you miss the last movement on one axis because of alternateinbetween you are still in the same loop and their will
+# be a move on the other axis. You need to change alternate inbetween to jump a movement rather than just missing it out so reset the 
+# x axis indexes when doing that
 
 # Values for testing
 # *** First grid ***
