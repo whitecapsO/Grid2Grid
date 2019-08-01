@@ -88,9 +88,9 @@ device.log(message='Starting first grid row loop', message_type='success')
 for rowGrid1Index in range(rowsGrid1):
     
     # Initialise or increment x position of first grid if alternateInBetween assume the first 
-    # position is not an alternateInBetween
+    # column is not an alternateInBetween
     if alternateInBetweenGrid1 == 1 :
-        if rowGrid1Index != 0 or (rowGrid1Index % 2) > 0 :
+        if rowGrid1Index != 0 or (rowGrid1Index % 2) > 0 : # todo change to column index somehow may need to set x pos inside column for loop
              device.log(message='Grid 1 alternateInBetween', message_type='success')
         else :
             xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
@@ -126,9 +126,10 @@ for rowGrid1Index in range(rowsGrid1):
             rowGrid2Index += 1
             colGrid2Index = 0
 
-        # Set the x and y positions on the second grid
+        # Set the x and y positions on the second grid if alternateInBetween assume the first 
+        # column is not an alternateInBetween
         if alternateInBetweenGrid2 == 1 :
-            if rowGrid2Index != 0 or (rowGrid2Index % 2) > 0 :
+            if colGrid2Index > 0 and (colGrid2Index % 2) > 0 :
                 device.log(message='Grid 2 alternateInBetween', message_type='success')
             else :
                 xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
