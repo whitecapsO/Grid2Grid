@@ -133,17 +133,17 @@ for r in range(rowsGrid1):
         device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
         device.log('colXGrid2Index: ' + str(colXGrid2Index), 'success', ['toast'])
         device.log('Moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
-        device.move_absolute(
-            {
-                'kind': 'coordinate',
-                'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
-            },
-            100,
-            {
-                'kind': 'coordinate',
-                'args': {'x': 0, 'y': 0, 'z': 0}
-            }
-        )
+        # device.move_absolute(
+        #     {
+        #         'kind': 'coordinate',
+        #         'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
+        #     },
+        #     100,
+        #     {
+        #         'kind': 'coordinate',
+        #         'args': {'x': 0, 'y': 0, 'z': 0}
+        #     }
+        # )
 
         # Run sequence after 2nd grid move
         if sequenceAfter2ndGridMove != "":
