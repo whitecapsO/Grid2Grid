@@ -60,6 +60,8 @@ alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_nam
 
 device.log(message='Setting variables', message_type='success')
 device.log(message='Change 1', message_type='success')
+device.log(message='alternateInBetweenGrid1: ' + str(alternateInBetweenGrid1), message_type='success')
+device.log(message='alternateInBetweenGrid2: ' + str(alternateInBetweenGrid2), message_type='success')
 
 # Initialise row (X) and column (Y) indexes for the second grid
 rowGrid2Index = 0
