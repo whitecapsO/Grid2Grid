@@ -86,22 +86,22 @@ device.log(message='Starting first grid row loop', message_type='success')
 
 # Start the first grid movement
 for rowGrid1Index in range(rowsGrid1):
-    
-    # Initialise or increment x position of first grid if alternateInBetween assume the first 
-    # column is not an alternateInBetween
-    if alternateInBetweenGrid1 == 1 :
-        if rowGrid1Index != 0 or (rowGrid1Index % 2) > 0 : # todo change to column index somehow may need to set x pos inside column for loop
-             device.log(message='Grid 1 alternateInBetween', message_type='success')
-        else :
-            xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
-    else :
-        xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
-
     # Set first grids y position back to the first column
     yPosGrid1 = startYGrid1
 
     # Todo fix as rows and column totals will be different numbers in both grids
     for colGrid1Index in range(colsGrid1):
+        # Initialise or increment x position of first grid if alternateInBetween assume the first 
+        # column is not an alternateInBetween
+        if alternateInBetweenGrid1 == 1 :
+           if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
+                 device.log(message='Grid 1 alternateInBetween', message_type='success')
+            else :
+                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
+        else :
+            xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
+
+
         # 1st grid move moveAbsolute(xPos, yPos, startZ)
         device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
         device.move_absolute(
