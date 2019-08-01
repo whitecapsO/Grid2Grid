@@ -120,8 +120,8 @@ for r in range(rowsGrid1):
         yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
 
         # 2nd grid move
-        device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
-        device.log('colXGrid2Index: ' + str(colXGrid2Index), 'success', ['toast'])
+        # device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
+        # device.log('colXGrid2Index: ' + str(colXGrid2Index), 'success', ['toast'])
         device.log('Moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
         # device.move_absolute(
         #     {
