@@ -96,6 +96,7 @@ for rowGrid1Index in range(rowsGrid1):
         if alternateInBetweenGrid1 == 1 :
             if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
                 device.log(message='Grid 1 alternateInBetween', message_type='success')
+                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * 0.5) + (spaceBetweenRowsGrid1 * rowGrid1Index)
             else :
                 xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
         else :
@@ -131,6 +132,7 @@ for rowGrid1Index in range(rowsGrid1):
         if alternateInBetweenGrid2 == 1 :
             if colGrid2Index > 0 and (colGrid2Index % 2) > 0 :
                 device.log(message='Grid 2 alternateInBetween', message_type='success')
+                xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * 0.5) + (spaceBetweenRowsGrid2 * rowGrid2Index)
             else :
                 xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
         else :
