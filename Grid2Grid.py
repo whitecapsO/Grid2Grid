@@ -94,8 +94,8 @@ for rowGrid1Index in range(rowsGrid1):
         # Initialise or increment x position of first grid if alternateInBetween assume the first 
         # column is not an alternateInBetween
         if alternateInBetweenGrid1 == 1 :
-           if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
-                 device.log(message='Grid 1 alternateInBetween', message_type='success')
+            if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
+                device.log(message='Grid 1 alternateInBetween', message_type='success')
             else :
                 xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
         else :
