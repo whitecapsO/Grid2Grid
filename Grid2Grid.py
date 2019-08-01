@@ -59,10 +59,11 @@ sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_na
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=bool)
 
 device.log(message='Setting variables', message_type='success')
-device.log(message='Change 4', message_type='success')
+device.log(message='Change 5', message_type='success')
+
 # Initialise row (X) and column (Y) indexes for the second grid
-rowXGrid2Index = 0
-colYGrid2Index = 0
+rowGrid2Index = 0
+colGrid2Index = 0
 # Set constant Z positions
 zPosGrid1 = startZGrid1
 zPosGrid2 = startZGrid2
@@ -117,24 +118,24 @@ for r in range(rowsGrid1):
             device.execute(sequenceAfter1stGridMoveId)
 
         # Set the x and y positions on the second grid
-        # xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowXGrid2Index)
-        # yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colXGrid2Index)
+        xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
+        yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colGrid2Index)
 
         # 2nd grid move
-        device.log('rowXGrid2Index: ' + str(rowXGrid2Index), 'success', ['toast'])
-        device.log('colXGrid2Index: ' + str(colXGrid2Index), 'success', ['toast'])
-        #device.log('Moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
-        # device.move_absolute(
-        #     {
-        #         'kind': 'coordinate',
-        #         'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
-        #     },
-        #     100,
-        #     {
-        #         'kind': 'coordinate',
-        #         'args': {'x': 0, 'y': 0, 'z': 0}
-        #     }
-        # )
+        device.log('rowGrid2Index: ' + str(rowGrid2Index), 'success', ['toast'])
+        device.log('colGrid2Index: ' + str(colGrid2Index), 'success', ['toast'])
+        device.log('Moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        )
 
         # Run sequence after 2nd grid move
         if sequenceAfter2ndGridMove != "":
@@ -145,8 +146,8 @@ for r in range(rowsGrid1):
         yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
 
         # # Increment the indexes for grid 2
-        # if colXGrid2Index < colsGrid2 :
-        #     colXGrid2Index += 1
-        # else :
-        #     colXGrid2Index = 0
-        #     rowXGrid2Index += 1
+        if colGrid2Index < colsGrid2 :
+            colGrid2Index += 1
+        else :
+            colGrid2Index = 0
+            rowGrid2Index += 1
