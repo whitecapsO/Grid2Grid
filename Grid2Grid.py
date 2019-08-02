@@ -125,17 +125,30 @@ for rowGrid1Index in range(rowsGrid1):
             device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
             device.execute(sequenceAfter1stGridMoveId)
 
-        # Increment the row index if we reached the last column and reset the column index
-        if colGrid2Index >= colsGrid2 :
+        if (colGrid2Index >= colsGrid2) :
             rowGrid2Index += 1
             colGrid2Index = 0
+
+        # Increment the row index and reset the column index if alternateInBetweenGrid2 and in an
+        # alternateInBetweenGrid2 row i.e. row index is an odd number and 
+        # or if we reached the last column 
+
+        # if ((alternateInBetweenGrid2 == 1) 
+        # and (colGrid2Index > 0 and (colGrid2Index % 2) > 0) 
+        # and (rowGrid1Index < rowsGrid1 - 1))
+        # or (colGrid2Index >= colsGrid2) :
+        #     rowGrid2Index += 1
+        #     colGrid2Index = 0
 
         # Set the x and y positions on the second grid if alternateInBetween assume the first 
         # column is not an alternateInBetween
         if alternateInBetweenGrid2 == 1 :
             if colGrid2Index > 0 and (colGrid2Index % 2) > 0 :
-                device.log(message='Grid 2 alternateInBetween', message_type='success')
-                xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * 0.5) + (spaceBetweenRowsGrid2 * rowGrid2Index)
+                if rowGrid1Index < rowsGrid1 - 1 :
+                    device.log(message='Grid 2 last row of alternateInBetween column', message_type='success')
+                else :
+                    device.log(message='Grid 2 alternateInBetween column', message_type='success')
+                    xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * 0.5) + (spaceBetweenRowsGrid2 * rowGrid2Index)
             else :
                 xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
         else :
