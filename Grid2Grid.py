@@ -154,6 +154,12 @@ for rowGrid1Index in range(rowsGrid1):
         # Increment y column position for grid 1
         yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
 
+        # Set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
+        if ((alternateInBetweenGrid1 == 1)                  # Is alternateInBetween
+        and (colGrid1Index > 0 and (colGrid1Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
+        and (rowGrid1Index >= rowsGrid1 - 2)) :             # is on the second to last row index as an alternateInBetween has 1 less row
+            rowGrid1Index = 0                                   # Reset row index
+
         # Set the second grid row and column indexes
         if ((alternateInBetweenGrid2 == 1)                  # Is alternateInBetween
         and (colGrid2Index > 0 and (colGrid2Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
