@@ -125,10 +125,6 @@ for rowGrid1Index in range(rowsGrid1):
             device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
             device.execute(sequenceAfter1stGridMoveId)
 
-        if (colGrid2Index >= colsGrid2) :
-            rowGrid2Index += 1
-            colGrid2Index = 0
-
         # Increment the row index and reset the column index if alternateInBetweenGrid2 and in an
         # alternateInBetweenGrid2 row i.e. row index is an odd number and 
         # or if we reached the last column 
@@ -137,7 +133,7 @@ for rowGrid1Index in range(rowsGrid1):
         # and (colGrid2Index > 0 and (colGrid2Index % 2) > 0) 
         # and (rowGrid1Index < rowsGrid1 - 1))
         # or (colGrid2Index >= colsGrid2) :
-        #     rowGrid2Index += 1
+        #     rowGrid2Index +
         #     colGrid2Index = 0
 
         # Set the x and y positions on the second grid if alternateInBetween assume the first 
@@ -181,5 +177,9 @@ for rowGrid1Index in range(rowsGrid1):
         # Increment y column position for grid 1
         yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
 
-        # Increment the column indexes for grid 2 
-        colGrid2Index += 1
+        if rowGrid2Index >= (rowsGrid2 - 1) :
+            rowGrid2Index = 0
+            colGrid2Index += 1
+        else
+            rowGrid2Index += 1
+        
