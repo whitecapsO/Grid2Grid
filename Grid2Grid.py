@@ -11,9 +11,7 @@ from farmware_tools import get_config_value
 # 6. Move to second position first grid
 # 7. Repeat
 
-#TODO if you miss the last movement on one axis because of alternateinbetween you are still in the same loop and their will
-# be a move on the other axis. You need to change alternate inbetween to jump a movement rather than just missing it out so reset the 
-# x axis indexes when doing that
+#TODO Grid 1 sort out the last row of an alternateinbetween column
 
 # Values for testing
 # *** First grid ***
@@ -91,8 +89,8 @@ for rowGrid1Index in range(rowsGrid1):
     yPosGrid1 = startYGrid1
 
     for colGrid1Index in range(colsGrid1):
-        # Initialise or increment x position of first grid if alternateInBetween assume the first 
-        # column is not an alternateInBetween
+        # Set the x and y positions on the second grid if alternateInBetween assume the first 
+        # column is not an alternateInBetween then odd numbered colums are
         if alternateInBetweenGrid1 == 1 :
             if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
                 device.log(message='Grid 1 alternateInBetween', message_type='success')
@@ -102,49 +100,31 @@ for rowGrid1Index in range(rowsGrid1):
         else :
             xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
-
-        # 1st grid move if not alternateInBetweenGrid1 and on last row
-        if (alternateInBetweenGrid1 == 0 or (alternateInBetweenGrid1 == 1 and rowGrid1Index < rowsGrid1 - 1)) : 
-            device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
-            device.move_absolute(
-                {
-                    'kind': 'coordinate',
-                    'args': {'x': xPosGrid1, 'y': yPosGrid1, 'z': zPosGrid1}
-                },
-                100,
-                {
-                    'kind': 'coordinate',
-                    'args': {'x': 0, 'y': 0, 'z': 0}
-                }
-            )
-        else :
-            device.log(message='Grid 1 alternateInBetween so abort last position', message_type='success')
+        # 1st grid move 
+        device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': xPosGrid1, 'y': yPosGrid1, 'z': zPosGrid1}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        )
 
         # Run sequence after 1st grid move
         if sequenceAfter1stGridMove != "":
             device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
             device.execute(sequenceAfter1stGridMoveId)
 
-        # Increment the row index and reset the column index if alternateInBetweenGrid2 and in an
-        # alternateInBetweenGrid2 row i.e. row index is an odd number and 
-        # or if we reached the last column 
-
-        # if ((alternateInBetweenGrid2 == 1) 
-        # and (colGrid2Index > 0 and (colGrid2Index % 2) > 0) 
-        # and (rowGrid1Index < rowsGrid1 - 1))
-        # or (colGrid2Index >= colsGrid2) :
-        #     rowGrid2Index +
-        #     colGrid2Index = 0
-
         # Set the x and y positions on the second grid if alternateInBetween assume the first 
-        # column is not an alternateInBetween
+        # column is not an alternateInBetween then odd numbered colums are
         if alternateInBetweenGrid2 == 1 :
             if colGrid2Index > 0 and (colGrid2Index % 2) > 0 :
-                if rowGrid1Index < rowsGrid1 - 1 :
-                    device.log(message='Grid 2 last row of alternateInBetween column', message_type='success')
-                else :
-                    device.log(message='Grid 2 alternateInBetween column', message_type='success')
-                    xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * 0.5) + (spaceBetweenRowsGrid2 * rowGrid2Index)
+                device.log(message='Grid 2 alternateInBetween column', message_type='success')
+                xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * 0.5) + (spaceBetweenRowsGrid2 * rowGrid2Index)
             else :
                 xPosGrid2 = startXGrid2 + (spaceBetweenRowsGrid2 * rowGrid2Index)
         else :
@@ -152,22 +132,19 @@ for rowGrid1Index in range(rowsGrid1):
         
         yPosGrid2 = startYGrid2 + (spaceBetweenColsGrid2 * colGrid2Index)
 
-        # 1st grid move if not alternateInBetweenGrid1 and on last row
-        if (alternateInBetweenGrid2 == 0 or (alternateInBetweenGrid2 == 1 and rowGrid2Index < rowsGrid2 - 1)) : 
-            device.log('Grid 2 moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
-            device.move_absolute(
-                {
-                    'kind': 'coordinate',
-                    'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
-                },
-                100,
-                {
-                    'kind': 'coordinate',
-                    'args': {'x': 0, 'y': 0, 'z': 0}
-                }
-            )
-        else :
-            device.log(message='Grid 2 alternateInBetween so abort last position', message_type='success')
+        # 2nd grid move
+        device.log('Grid 2 moving to ' + str(xPosGrid2) + ', ' + str(yPosGrid2) + ', ' + str(zPosGrid2), 'success', ['toast'])
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': zPosGrid2}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        )
 
         # Run sequence after 2nd grid move
         if sequenceAfter2ndGridMove != "":
@@ -177,9 +154,15 @@ for rowGrid1Index in range(rowsGrid1):
         # Increment y column position for grid 1
         yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
 
-        if rowGrid2Index >= (rowsGrid2 - 1) :
-            rowGrid2Index = 0
-            colGrid2Index += 1
-        else :
-            rowGrid2Index += 1
+        # Set the second grid row and column indexes
+        if ((alternateInBetweenGrid2 == 1)                  # Is alternateInBetween
+        and (colGrid2Index > 0 and (colGrid2Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
+        and (rowGrid1Index < rowsGrid1 - 2)) :              # is on the second to last row index as an alternateInBetween has 1 less row
+            rowGrid2Index = 0                                   # Reset row index
+            colGrid2Index += 1                                  # Increment column index to move to the next column
+        elif rowGrid2Index >= (rowsGrid2 - 1) :             # else if on the last row
+            rowGrid2Index = 0                                   # Reset row index
+            colGrid2Index += 1                                  # Increment column index to move to the next column
+        else :                                              # else
+            rowGrid2Index += 1                                  # Increment row index to move to the next row
         
