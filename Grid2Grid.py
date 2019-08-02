@@ -180,6 +180,6 @@ for rowGrid1Index in range(rowsGrid1):
         if rowGrid2Index >= (rowsGrid2 - 1) :
             rowGrid2Index = 0
             colGrid2Index += 1
-        else
+        else :
             rowGrid2Index += 1
         
