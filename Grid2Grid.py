@@ -105,6 +105,8 @@ for rowGrid1Index in range(rowsGrid1):
         if ((alternateInBetweenGrid1 == 1)                  # Is alternateInBetween
         and (colGrid1Index > 0 and (colGrid1Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
         and (rowGrid1Index >= rowsGrid1 - 2)) :             # is on the second to last row index as an alternateInBetween has 1 less row
+            # Increment y column position for grid 1
+            yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
             device.log(message='Grid 1 alternateInBetween column last row so miss a row', message_type='success')
         else :
             device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
