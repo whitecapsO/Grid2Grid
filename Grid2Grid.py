@@ -157,7 +157,7 @@ for rowGrid1Index in range(rowsGrid1):
         # Set the second grid row and column indexes
         if ((alternateInBetweenGrid2 == 1)                  # Is alternateInBetween
         and (colGrid2Index > 0 and (colGrid2Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
-        and (rowGrid2Index < rowsGrid2 - 2)) :              # is on the second to last row index as an alternateInBetween has 1 less row
+        and (rowGrid2Index >= rowsGrid2 - 2)) :              # is on the second to last row index as an alternateInBetween has 1 less row
             rowGrid2Index = 0                                   # Reset row index
             colGrid2Index += 1                                  # Increment column index to move to the next column
         elif rowGrid2Index >= (rowsGrid2 - 1) :             # else if on the last row
