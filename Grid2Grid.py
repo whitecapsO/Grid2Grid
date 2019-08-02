@@ -84,11 +84,13 @@ else :
 device.log(message='Starting first grid row loop', message_type='success')
 
 # Start the first grid movement
-for rowGrid1Index in range(rowsGrid1):
+for colGrid1Index in range(colsGrid1):
+#for rowGrid1Index in range(rowsGrid1):
     # Set first grids y position back to the first column
     yPosGrid1 = startYGrid1
 
-    for colGrid1Index in range(colsGrid1):
+    for rowGrid1Index in range(rowsGrid1):
+    #for colGrid1Index in range(colsGrid1):
         # Set the x and y positions on the second grid if alternateInBetween assume the first 
         # column is not an alternateInBetween then odd numbered colums are
         if alternateInBetweenGrid1 == 1 :
