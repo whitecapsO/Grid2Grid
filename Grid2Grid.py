@@ -3,6 +3,12 @@ from farmware_tools import device
 from farmware_tools import env
 from farmware_tools import get_config_value
 
+# Remember if using alternate inbetween last row is missed so:
+# Normal grid: 3 rows x 2 columns = 6 cells
+# Alternate in between grid: 2 rows x 4 columns = 6 cells as last rows 2 of alternate inbetween columns missed
+# Not tested turning alternate inbetween on both grids at the same time
+# A better way would be to initialise 2 arrays with x,y coordinates and loop through them but this algo works
+
 # 1. Pick up tool
 # 2. Move to first position first grid
 # 3. Perform tool action (sequenceAfter1stGridMove)
@@ -10,8 +16,6 @@ from farmware_tools import get_config_value
 # 5. Perform tool action (sequenceAfter2ndGridMove)
 # 6. Move to second position first grid
 # 7. Repeat
-
-#TODO Grid 1 sort out the last row of an alternateinbetween column
 
 # Values for testing
 # *** First grid ***
@@ -100,8 +104,7 @@ for rowGrid1Index in range(rowsGrid1):
         else :
             xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
-        # 1st grid move 
-                # Set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
+        # 1st grid move set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
         if ((alternateInBetweenGrid1 == 1)                  # Is alternateInBetween
         and (colGrid1Index > 0 and (colGrid1Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
         and (rowGrid1Index >= rowsGrid1 - 1)) :             # is on the second to last row index as an alternateInBetween has 1 less row
@@ -161,12 +164,6 @@ for rowGrid1Index in range(rowsGrid1):
 
             # Increment y column position for grid 1
             yPosGrid1 = yPosGrid1 + spaceBetweenColsGrid1
-
-            # Set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
-            # if ((alternateInBetweenGrid1 == 1)                  # Is alternateInBetween
-            # and (colGrid1Index > 0 and (colGrid1Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
-            # and (rowGrid1Index >= rowsGrid1 - 2)) :             # is on the second to last row index as an alternateInBetween has 1 less row
-            #     rowGrid1Index = 0                                   # Reset row index
 
             # Set the second grid row and column indexes
             if ((alternateInBetweenGrid2 == 1)                  # Is alternateInBetween
