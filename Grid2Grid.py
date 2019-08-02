@@ -89,25 +89,24 @@ for rowGrid1Index in range(rowsGrid1):
     yPosGrid1 = startYGrid1
 
     for colGrid1Index in range(colsGrid1):
+        # Set the x and y positions on the second grid if alternateInBetween assume the first 
+        # column is not an alternateInBetween then odd numbered colums are
+        if alternateInBetweenGrid1 == 1 :
+            if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
+                device.log(message='Grid 1 alternateInBetween', message_type='success')
+                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * 0.5) + (spaceBetweenRowsGrid1 * rowGrid1Index)
+            else :
+                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
+        else :
+            xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
-        # Set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
+        # 1st grid move 
+                # Set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
         if ((alternateInBetweenGrid1 == 1)                  # Is alternateInBetween
         and (colGrid1Index > 0 and (colGrid1Index % 2) > 0) # is on an alternateInBetween odd numbered (offset) column  
         and (rowGrid1Index >= rowsGrid1 - 2)) :             # is on the second to last row index as an alternateInBetween has 1 less row
             device.log(message='Grid 1 alternateInBetween column last row so miss a row', message_type='success')
         else :
-            # Set the x and y positions on the second grid if alternateInBetween assume the first 
-            # column is not an alternateInBetween then odd numbered colums are
-            if alternateInBetweenGrid1 == 1 :
-                if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
-                    device.log(message='Grid 1 alternateInBetween', message_type='success')
-                    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * 0.5) + (spaceBetweenRowsGrid1 * rowGrid1Index)
-                else :
-                    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
-            else :
-                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
-
-            # 1st grid move 
             device.log('Grid 1 moving to ' + str(xPosGrid1) + ', ' + str(yPosGrid1) + ', ' + str(zPosGrid1), 'success', ['toast'])
             device.move_absolute(
                 {
