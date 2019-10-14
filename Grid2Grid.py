@@ -102,17 +102,17 @@ for rowGrid1Index in range(rowsGrid1):
                 device.log(message='Grid 1 alternateInBetween', message_type='success')
                 if startLastRowOfGrid1 == 1 :
                     xPosGrid1 = startXGrid1 - (spaceBetweenRowsGrid1 * 0.5) - (spaceBetweenRowsGrid1 * rowGrid1Index)
-                else
+                else :
                     xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * 0.5) + (spaceBetweenRowsGrid1 * rowGrid1Index)
             else :
                 if startLastRowOfGrid1 == 1 :
                     xPosGrid1 = startXGrid1 - (spaceBetweenRowsGrid1 * rowGrid1Index)
-                else
+                else :
                     xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
         else :
             if startLastRowOfGrid1 == 1 :
                 xPosGrid1 = startXGrid1 - (spaceBetweenRowsGrid1 * rowGrid1Index)                    
-            else
+            else :
                 xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
         # 1st grid move set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
