@@ -50,6 +50,7 @@ startYGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startYGri
 startZGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startZGrid1', value_type=float)
 sequenceAfter1stGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter1stGridMove', value_type=str)
 alternateInBetweenGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid1', value_type=int)
+startLastRowOfGrid1 = get_config_value(farmware_name='Grid2Grid', config_name='startLastRowOfGrid1', value_type=int)
 
 device.log(message='Setting second grid variables', message_type='success')
 rowsGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='rowsGrid2', value_type=int)
@@ -93,16 +94,26 @@ for rowGrid1Index in range(rowsGrid1):
     yPosGrid1 = startYGrid1
 
     for colGrid1Index in range(colsGrid1):
-        # Set the x and y positions on the second grid if alternateInBetween assume the first 
+        # Set the x and y positions on the first grid if alternateInBetween assume the first 
         # column is not an alternateInBetween then odd numbered colums are
+        # if startLastRowOfGrid1 then the x position starts on the last row and moves backwards
         if alternateInBetweenGrid1 == 1 :
             if colGrid1Index > 0 and (colGrid1Index % 2) > 0 :
                 device.log(message='Grid 1 alternateInBetween', message_type='success')
-                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * 0.5) + (spaceBetweenRowsGrid1 * rowGrid1Index)
+                if startLastRowOfGrid1 == 1 :
+                    xPosGrid1 = startXGrid1 - (spaceBetweenRowsGrid1 * 0.5) - (spaceBetweenRowsGrid1 * rowGrid1Index)
+                else
+                    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * 0.5) + (spaceBetweenRowsGrid1 * rowGrid1Index)
             else :
-                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
+                if startLastRowOfGrid1 == 1 :
+                    xPosGrid1 = startXGrid1 - (spaceBetweenRowsGrid1 * rowGrid1Index)
+                else
+                    xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
         else :
-            xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
+            if startLastRowOfGrid1 == 1 :
+                xPosGrid1 = startXGrid1 - (spaceBetweenRowsGrid1 * rowGrid1Index)                    
+            else
+                xPosGrid1 = startXGrid1 + (spaceBetweenRowsGrid1 * rowGrid1Index)
 
         # 1st grid move set the first grid row index back to zero if alternate inbetween column on last row let the loop handle the rest
         if ((alternateInBetweenGrid1 == 1)                  # Is alternateInBetween
