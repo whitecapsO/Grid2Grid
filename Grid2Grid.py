@@ -10,30 +10,15 @@ import time
 # i.e. instead of an 11 x 8 grid with alternateinbetween configure a 21 x 8 grid with alternate inbetween and then don't load every second value into the list
 # otherwise load all values into the list simple
 
-# TODO ensure grids of different numbers of rows and columns
-# Change to numberOfMoves, grid1XPositions, grid1YPositions, grid2XPositions, grid2YPositions 
-# then fill two one dimentional arrays sixe of the numberOfMoves containing the coordinates for the grids
-# then have one loop that indexes both arrays
-
 # Rewrite of Grid2Grid to run in 20 minutes due to limitations put on Farmware 
 # i.e. Farmware can only run for 20 minutes and there is a 2 second delay between device calls
 # the only way to loop is to use sequence recursion at the end of each row 
-# the movesWithin20Mins specifies how many grid2 moves can be made in 20 minutes before 
+# the movesPerCycle specifies how many grid2grid moves can be made in 20 minutes before 
 # breaking out of the loop anfd writing that position to a config file
 # the sequence then recalls Grid2Grid and starts moving from whare it left off
 
 # TODO work out why it takes the Farmware librarys so long to load: 
 # https://forum.farmbot.org/t/farmware-moveabsolute-and-executesequence-not-working/5784/28
-
-# A row is movement along the Y axis
-# A column is movement along the X axis
-
-# The way the loop works is:
-# 1 - To initialise an index via a separate Farmware that sets X & Y coordinates in an environment variable to 0,0 in a config file 
-# 2 - This Farmware reads the config file coordinates if they are 0,0 it assumes it is at the start
-# 3 - If they are loop until the co-ordinates are found 
-# 4 - If the  moveCount = movesWithin20Mins then stop the moves and write the co-ordinates to the config file
-# 5 - If the loop ends without breakin assume we are at the end and set the pin 3 value to 0 i.e. false 
 
 # To work out Z axis height:
 # 1. To work out the X axis angle use simple trig: angle = sin(angle) = opposite \ hypotenuse i.e. angle = sin-1 (opposite \ hypotenuse)
@@ -82,7 +67,6 @@ startOfXSlopeGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='st
 sineOfXAngleGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='sineOfXAngleGrid2', value_type=float)
 alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_name='alternateInBetweenGrid2', value_type=int)
 sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter2ndGridMove', value_type=str)
-
 
 # Delay constant as some calls to Farmduino are now not synchronous
 waitSeconds = 30
@@ -179,44 +163,46 @@ for yIndex in range(yPositionsGrid2):
             gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
+device.log(message='grid1Coordinates: ' + str(grid1Coordinates.count) + ' grid2Coordinates:' + str(grid2Coordinates.count), message_type='success')           
+
 # Now move
-for plant in range(numberOfPlants):
+# for plant in range(numberOfPlants):
 
-    # Move Grid 1
-    grid1Item = grid1Coordinates[plant]()
-    device.move_absolute(
-        {
-            'kind': 'coordinate',
-            'args': {'x': grid1Item.xPosition, 'y': grid1Item.yPosition, 'z': grid1Item.zPosition}
-        },
-        100,
-        {
-            'kind': 'coordinate',
-            'args': {'x': 0, 'y': 0, 'z': 0}
-        }
-    )
-    if sequenceAfter1stGridMoveId > 0 :
-        device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
-        device.execute(sequenceAfter1stGridMoveId)
-        time.sleep(waitSeconds)
+#     # Move Grid 1
+#     grid1Item = grid1Coordinates[plant]()
+#     device.move_absolute(
+#         {
+#             'kind': 'coordinate',
+#             'args': {'x': grid1Item.xPosition, 'y': grid1Item.yPosition, 'z': grid1Item.zPosition}
+#         },
+#         100,
+#         {
+#             'kind': 'coordinate',
+#             'args': {'x': 0, 'y': 0, 'z': 0}
+#         }
+#     )
+#     if sequenceAfter1stGridMoveId > 0 :
+#         device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
+#         device.execute(sequenceAfter1stGridMoveId)
+#         time.sleep(waitSeconds)
 
-    # Move Grid 2
-    grid2Item = grid2Coordinates[plant]()
-    device.move_absolute(
-        {
-            'kind': 'coordinate',
-            'args': {'x': grid2Item.xPosition, 'y': grid2Item.yPosition, 'z': grid2Item.zPosition}
-        },
-        100,
-        {
-            'kind': 'coordinate',
-            'args': {'x': 0, 'y': 0, 'z': 0}
-        }
-    ) 
-    if sequenceAfter2ndGridMoveId > 0 :
-        device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
-        device.execute(sequenceAfter2ndGridMoveId) 
-        time.sleep(waitSeconds)
+#     # Move Grid 2
+#     grid2Item = grid2Coordinates[plant]()
+#     device.move_absolute(
+#         {
+#             'kind': 'coordinate',
+#             'args': {'x': grid2Item.xPosition, 'y': grid2Item.yPosition, 'z': grid2Item.zPosition}
+#         },
+#         100,
+#         {
+#             'kind': 'coordinate',
+#             'args': {'x': 0, 'y': 0, 'z': 0}
+#         }
+#     ) 
+#     if sequenceAfter2ndGridMoveId > 0 :
+#         device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
+#         device.execute(sequenceAfter2ndGridMoveId) 
+#         time.sleep(waitSeconds)
 
 # if currentPositionX == 0 and currentPositionY == 0:
 #     canMove = True
