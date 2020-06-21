@@ -163,7 +163,7 @@ for yIndex in range(yPositionsGrid2):
             gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
-device.log(message='grid1Coordinates: ' + str(grid1Coordinates.count) + ' grid2Coordinates:' + str(grid2Coordinates.count), message_type='success')           
+device.log(message='grid1Coordinates: ' + grid1Coordinates.count + ' grid2Coordinates:' + grid2Coordinates.count, message_type='success')           
 
 # Now move
 # for plant in range(numberOfPlants):
