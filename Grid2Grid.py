@@ -133,7 +133,7 @@ for yIndex in range(yPositionsGrid1):
             addToZHeightGrid1 = sineOfXAngleGrid1 * hypotenuseGrid1
 
         # If alternate inbetween and the sum of indexes adds to an even value or 0 add position
-        if alternateInBetweenGrid1 == 1 and (((yIndex + xIndex) % 2) >= 0):
+        if alternateInBetweenGrid1 == 1 and (((yIndex + xIndex) % 2) == 0):
             gridPosition1 = GridPosition(yPosGrid1, yPosGrid1, addToZHeightGrid1)
             grid1Coordinates.append(gridPosition1)
 
@@ -154,7 +154,7 @@ for yIndex in range(yPositionsGrid2):
             addToZHeightGrid2 = sineOfXAngleGrid2 * hypotenuseGrid2
 
         # If alternate inbetween and the sum of indexes adds to an even value or 0 add position
-        if alternateInBetweenGrid2 == 1 and (((yIndex + xIndex) % 2) >= 0):
+        if alternateInBetweenGrid2 == 1 and (((yIndex + xIndex) % 2) == 0):
             gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
