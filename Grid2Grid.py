@@ -169,7 +169,10 @@ device.log(message='grid1Coordinates: ' + str(len(grid1Coordinates)) + ' grid2Co
 for plant in range(numberOfPlants):
 
     # Move Grid 1
-    grid1Item = GridPosition(grid1Coordinates[plant])
+    grid1Item = grid1Coordinates[plant]
+
+    device.log(message='first move', message_type='success')     
+    
     device.move_absolute(
         {
             'kind': 'coordinate',
@@ -187,7 +190,7 @@ for plant in range(numberOfPlants):
         time.sleep(waitSeconds)
 
     # Move Grid 2
-    grid2Item = GridPosition(grid2Coordinates[plant])
+    grid2Item = grid2Coordinates[plant]
     device.move_absolute(
         {
             'kind': 'coordinate',
