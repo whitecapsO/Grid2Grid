@@ -138,46 +138,46 @@ for yIndex in range(yPositionsGrid2):
 # Check the number of items in both lists are the same
 device.log(message='grid1Coordinates: ' + str(len(grid1Coordinates)) + ' grid2Coordinates:' + str(len(grid2Coordinates)), message_type='success')           
 
-# # Now move 
-# for plant in range(numberOfPlants):
-#     if canMove :
-#         # Move Grid 1
-#         grid1Item = grid1Coordinates[plant]
-#         device.move_absolute(
-#             {
-#                 'kind': 'coordinate',
-#                 'args': {'x': grid1Item.xPosition, 'y': grid1Item.yPosition, 'z': grid1Item.zPosition}
-#             },
-#             100,
-#             {
-#                 'kind': 'coordinate',
-#                 'args': {'x': 0, 'y': 0, 'z': 0}
-#             }
-#         )
-#         if sequenceAfter1stGridMoveId > 0 :
-#             device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
-#             device.execute(sequenceAfter1stGridMoveId)
-#             time.sleep(waitSeconds)
+# Now move 
+for plant in range(numberOfPlants):
+    if canMove :
+        # Move Grid 1
+        grid1Item = grid1Coordinates[plant]
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': grid1Item.xPosition, 'y': grid1Item.yPosition, 'z': grid1Item.zPosition}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        )
+        if sequenceAfter1stGridMoveId > 0 :
+            device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
+            device.execute(sequenceAfter1stGridMoveId)
+            time.sleep(waitSeconds)
 
-#         # Move Grid 2
-#         grid2Item = grid2Coordinates[plant]
-#         device.move_absolute(
-#             {
-#                 'kind': 'coordinate',
-#                 'args': {'x': grid2Item.xPosition, 'y': grid2Item.yPosition, 'z': grid2Item.zPosition}
-#             },
-#             100,
-#             {
-#                 'kind': 'coordinate',
-#                 'args': {'x': 0, 'y': 0, 'z': 0}
-#             }
-#         ) 
-#         if sequenceAfter2ndGridMoveId > 0 :
-#             device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
-#             device.execute(sequenceAfter2ndGridMoveId) 
-#             time.sleep(waitSeconds)
+        # Move Grid 2
+        grid2Item = grid2Coordinates[plant]
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': grid2Item.xPosition, 'y': grid2Item.yPosition, 'z': grid2Item.zPosition}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        ) 
+        if sequenceAfter2ndGridMoveId > 0 :
+            device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
+            device.execute(sequenceAfter2ndGridMoveId) 
+            time.sleep(waitSeconds)
 
-#         moveCount += 1 
+        moveCount += 1 
 
 #     if movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
 #         canMove == False
