@@ -179,22 +179,22 @@ for plant in range(numberOfPlants):
 
         moveCount += 1 
 
-#     if movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
-#         canMove == False
-#         os.remove(configFileName)   # Write the current position of the 2nd grids x,y co-ordinates to the config
-#         configContents = {evName: str(xPosGrid2) + "," + str(yPosGrid2)}
-#         with open(configFileName, 'w') as f:
-#             json.dump(configContents, f)
-#             f.close()
+    if movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
+        canMove == False
+        os.remove(configFileName)   # Write the current position of the 2nd grids x,y co-ordinates to the config
+        configContents = {evName: str(xPosGrid2) + "," + str(yPosGrid2)}
+        with open(configFileName, 'w') as f:
+            json.dump(configContents, f)
+            f.close()
         
-#         if plant < numberOfPlants : # If we aren't at the end of the loop then break out of the loop
-#             loopBreaked = True
-#             break
+        if plant < numberOfPlants : # If we aren't at the end of the loop then break out of the loop
+            loopBreaked = True
+            break
 
-#     elif canMove == False and savedMoveIndex == plant:  # Turn the moves on if we have reached the saved index
-#         canMove == True
+    elif canMove == False and savedMoveIndex == plant:  # Turn the moves on if we have reached the saved index
+        canMove == True
 
-# # If loop finishes without breaking then signal that Grid2Grid has finished
-# if loopBreaked == False :
-#     device.write_pin(3,0,0)
-#     time.sleep(waitSeconds)
+# If loop finishes without breaking then signal that Grid2Grid has finished
+if loopBreaked == False :
+    device.write_pin(3,0,0)
+    time.sleep(waitSeconds)
