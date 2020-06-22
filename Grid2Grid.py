@@ -6,37 +6,21 @@ import json
 import os
 import time
 
-# TODO add extra row for alternate Inbetween and do a diamond patten
-# i.e. instead of an 11 x 8 grid with alternateinbetween configure a 21 x 8 grid with alternate inbetween and then don't load every second value into the list
-# otherwise load all values into the list simple
-
-# Rewrite of Grid2Grid to run in 20 minutes due to limitations put on Farmware 
-# i.e. Farmware can only run for 20 minutes and there is a 2 second delay between device calls
-# the only way to loop is to use sequence recursion at the end of each row 
-# the movesPerCycle specifies how many grid2grid moves can be made in 20 minutes before 
-# breaking out of the loop anfd writing that position to a config file
-# the sequence then recalls Grid2Grid and starts moving from whare it left off
-
 # TODO work out why it takes the Farmware librarys so long to load: 
 # https://forum.farmbot.org/t/farmware-moveabsolute-and-executesequence-not-working/5784/28
+
+# To do use a diamond pattern on the grid set alternateinbetween i.e. instead of an 11 x 8 grid 
+# with alternateinbetween configure a 21 x 8 grid and then don't load every second value into the list
+# otherwise if not alternateinbetween load all values into the list 
+# Not tested turning alternate inbetween on both grids at the same time
 
 # To work out Z axis height:
 # 1. To work out the X axis angle use simple trig: angle = sin(angle) = opposite \ hypotenuse i.e. angle = sin-1 (opposite \ hypotenuse)
 # 2. To work out Z axis height i.e the opposite: hypotenuse = current X pos - beginining of X then opposite = sin(angle) * hypotenuse
 # 3. Then add that height (the opposite) to the startZGrid value
 
-# Remember if using alternate inbetween last row is missed so:
-# Normal grid: 3 rows x 2 columns = 6 cells
-# Alternate in between grid: 2 rows x 4 columns = 6 cells as last rows 2 of alternate inbetween columns missed
-# Not tested turning alternate inbetween on both grids at the same time
-# A better way would be to initialise 2 arrays with x,y coordinates and loop through them but this algo works
+# To signal to the recursve sequence that the Grid2Grid has finished turn on Pin3
 
-# Future considerations:
-# Load two arrays of coordinates first and then loop through them note one grid could be diamond pattern one could be normal grid
-# Think if using alternate inbetween then instead of x count = 11, x count = the number of actual x positions i.e. x count = 21 
-# then on any column tell it when to use the odd or even numbered x positions
-
-#try :
 class GridPosition:
     def __init__(self, xPosition, yPosition, zPosition):
         self.xPosition = xPosition
@@ -73,12 +57,14 @@ waitSeconds = 30
 
 # Set config file and environment variable names
 configFileName = '/tmp/farmware/config.json'
-evName = 'xyCoordinates'
+evName = 'MovesMade'
 configContents = ''
 
 # Initialise row (X) and column (Y) indexes for all grids
 grid1Coordinates = []
 grid2Coordinates = []
+
+# Initialise loop indexes, counts and flags
 xIndex = 0
 yIndex = 0
 moveCount = 0
@@ -87,12 +73,6 @@ loopBreaked = False
 
 addToZHeightGrid1 = 0
 addToZHeightGrid2 = 0
-
-# Initialise positions
-xPosGrid1 = startXGrid1
-yPosGrid1 = startYGrid1
-xPosGrid2 = startXGrid2
-yPosGrid2 = startYGrid2
 
 # Get sequence IDs if name given
 if sequenceAfter1stGridMove == "NULL" :
@@ -109,19 +89,14 @@ else :
 with open(configFileName, 'r') as f:
     configContents = json.load(f)
     f.close()
+savedMoveIndex = int(configContents[evName])
+device.log(message='savedMoveIndex: ' + str(savedMoveIndex), message_type='success')
 
-# Parse the data into variables
-currentPositionXstr = str(configContents[evName]).split(",",-1)[0]
-currentPositionX = int(currentPositionXstr.split('.')[0])
-currentPositionYstr = str(configContents[evName]).split(",",-1)[1]
-currentPositionY = int(currentPositionYstr.split('.')[0])
+# If we are at the start then canMove
+if savedMoveIndex == 0 :    
+    canMove = True
 
-device.log(message='currentPositionXstr: ' + currentPositionXstr + ' currentPositionYstr:' + currentPositionYstr, message_type='success')
-
-# Set the canMove and hasMoved flags
-canMove = False
-
-# Load Grid1 Values and set y and x
+# Load Grid1 x,y,z coordinates into a list 
 for yIndex in range(yPositionsGrid1):
     yPosGrid1 = startYGrid1 + (spaceBetweenYGrid1 * yIndex)
     for xIndex in range(xPositionsGrid1):
@@ -132,7 +107,7 @@ for yIndex in range(yPositionsGrid1):
             hypotenuseGrid1 = xPosGrid1 - startOfXSlopeGrid1
             addToZHeightGrid1 = sineOfXAngleGrid1 * hypotenuseGrid1
 
-        # If alternate inbetween and the sum of indexes adds to an even value or 0 add position
+        # If alternate inbetween and the modulus sum of indexes equals 0 add position
         if alternateInBetweenGrid1 == 1 and (((yIndex + xIndex) % 2) == 0):
             gridPosition1 = GridPosition(yPosGrid1, yPosGrid1, addToZHeightGrid1)
             grid1Coordinates.append(gridPosition1)
@@ -142,175 +117,84 @@ for yIndex in range(yPositionsGrid1):
             gridPosition1 = GridPosition(yPosGrid1, yPosGrid1, addToZHeightGrid1)
             grid1Coordinates.append(gridPosition1)
 
-# Load Grid2 Values and set y and x
+# Load Grid2 x,y,z coordinates into a list (exactly the same as Grid1)
 for yIndex in range(yPositionsGrid2):
     yPosGrid2 = startYGrid2 + (spaceBetweenYGrid2 * yIndex)
     for xIndex in range(xPositionsGrid2):
         xPosGrid2 = startXGrid2 + (spaceBetweenXGrid2 * xIndex)
 
-         # Set the Z offset
         if (startOfXSlopeGrid2 != 0) and (sineOfXAngleGrid2 != 0) :
             hypotenuseGrid2 = xPosGrid2 - startOfXSlopeGrid2
             addToZHeightGrid2 = sineOfXAngleGrid2 * hypotenuseGrid2
 
-        # If alternate inbetween and the sum of indexes adds to an even value or 0 add position
         if alternateInBetweenGrid2 == 1 and (((yIndex + xIndex) % 2) == 0):
             gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
-        # If not alternate inbetween add position
         elif alternateInBetweenGrid2 == 0:
             gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
+# Check the number of items in both lists are the same
 device.log(message='grid1Coordinates: ' + str(len(grid1Coordinates)) + ' grid2Coordinates:' + str(len(grid2Coordinates)), message_type='success')           
 
-# Now move
+# Now move 
 for plant in range(numberOfPlants):
+    if canMove :
+        # Move Grid 1
+        grid1Item = grid1Coordinates[plant]
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': grid1Item.xPosition, 'y': grid1Item.yPosition, 'z': grid1Item.zPosition}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        )
+        if sequenceAfter1stGridMoveId > 0 :
+            device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
+            device.execute(sequenceAfter1stGridMoveId)
+            time.sleep(waitSeconds)
 
-    # Move Grid 1
-    grid1Item = grid1Coordinates[plant]
+        # Move Grid 2
+        grid2Item = grid2Coordinates[plant]
+        device.move_absolute(
+            {
+                'kind': 'coordinate',
+                'args': {'x': grid2Item.xPosition, 'y': grid2Item.yPosition, 'z': grid2Item.zPosition}
+            },
+            100,
+            {
+                'kind': 'coordinate',
+                'args': {'x': 0, 'y': 0, 'z': 0}
+            }
+        ) 
+        if sequenceAfter2ndGridMoveId > 0 :
+            device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
+            device.execute(sequenceAfter2ndGridMoveId) 
+            time.sleep(waitSeconds)
 
-    device.log(message='first move', message_type='success')     
-    
-    device.move_absolute(
-        {
-            'kind': 'coordinate',
-            'args': {'x': grid1Item.xPosition, 'y': grid1Item.yPosition, 'z': grid1Item.zPosition}
-        },
-        100,
-        {
-            'kind': 'coordinate',
-            'args': {'x': 0, 'y': 0, 'z': 0}
-        }
-    )
-    if sequenceAfter1stGridMoveId > 0 :
-        device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
-        device.execute(sequenceAfter1stGridMoveId)
-        time.sleep(waitSeconds)
+        moveCount += 1 
 
-    # Move Grid 2
-    grid2Item = grid2Coordinates[plant]
-    device.move_absolute(
-        {
-            'kind': 'coordinate',
-            'args': {'x': grid2Item.xPosition, 'y': grid2Item.yPosition, 'z': grid2Item.zPosition}
-        },
-        100,
-        {
-            'kind': 'coordinate',
-            'args': {'x': 0, 'y': 0, 'z': 0}
-        }
-    ) 
-    if sequenceAfter2ndGridMoveId > 0 :
-        device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
-        device.execute(sequenceAfter2ndGridMoveId) 
-        time.sleep(waitSeconds)
-
-# Remove
-# if currentPositionX == 0 and currentPositionY == 0:
-#     canMove = True
-
-# for yIndex in range(yAxisCount):
-#     # Set Y coordinates
-#     yPosGrid1 = startYGrid1 + (spaceBetweenYGrid1 * yIndex)
-#     yPosGrid2 = startYGrid2 + (spaceBetweenYGrid2 * yIndex)
-
-#     for xIndex in range(xAxisCount):
-#         # Grid 1
-#         # Set X coordinates
-#         if alternateInBetweenGrid1 == 1 :
-#             if yIndex > 0 and (yIndex % 2) > 0 :
-#                 xPosGrid1 = startXGrid1 + (spaceBetweenXGrid1 * 0.5) + (spaceBetweenXGrid1 * xIndex)
-#             else :
-#                 xPosGrid1 = startXGrid1 + (spaceBetweenXGrid1 * xIndex)
-#         else :
-#             xPosGrid1 = startXGrid1 + (spaceBetweenXGrid1 * xIndex)
+    if movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
+        canMove == False
+        os.remove(configFileName)   # Write the current position of the 2nd grids x,y co-ordinates to the config
+        configContents = {evName: str(xPosGrid2) + "," + str(yPosGrid2)}
+        with open(configFileName, 'w') as f:
+            json.dump(configContents, f)
+            f.close()
         
-#         if ((alternateInBetweenGrid1 == 1)              # If we can move and not set to alternateInBetween 
-#         and (yIndex > 0 and (yIndex % 2) > 0)           # on an alternateInBetween odd numbered (offset) y value  
-#         and (xIndex >= xAxisCount - 1)) :               # on the last x position as an alternateInBetween which has 1 less x position
-#             yPosGrid1 = yPosGrid1 + spaceBetweenYGrid1  # Bump up the Y position to the next row
-#             xPosGrid1 = startXGrid1                     # Set the X position back to the start of a non alternateInBetween
-#             device.log(message='alternateInBetweenGrid1 last row', message_type='success')
+        if plant < numberOfPlants : # If we aren't at the end of the loop then break out of the loop
+            loopBreaked = True
+            break
 
-#         if (startOfXSlopeGrid1 != 0) and (sineOfXAngleGrid1 != 0) :
-#             hypotenuseGrid1 = xPosGrid1 - startOfXSlopeGrid1
-#             addToZHeightGrid1 = sineOfXAngleGrid1 * hypotenuseGrid1
+    elif canMove == False and savedMoveIndex == plant:  # Turn the moves on if we have reached the saved index
+        canMove == True
 
-#         if canMove :
-#             device.move_absolute(
-#                 {
-#                     'kind': 'coordinate',
-#                     'args': {'x': xPosGrid1, 'y': yPosGrid1, 'z': addToZHeightGrid1}
-#                 },
-#                 100,
-#                 {
-#                     'kind': 'coordinate',
-#                     'args': {'x': 0, 'y': 0, 'z': 0}
-#                 }
-#             )
-#             if sequenceAfter1stGridMoveId > 0 :
-#                 device.log(message='Execute sequence: ' + sequenceAfter1stGridMove, message_type='success')
-#                 device.execute(sequenceAfter1stGridMoveId)
-#                 time.sleep(waitSeconds)
-
-#         # Grid 2
-#         if alternateInBetweenGrid2 == 1 :
-#             if yIndex > 0 and (yIndex % 2) > 0 :
-#                 xPosGrid2 = startXGrid2 + (spaceBetweenXGrid2 * 0.5) + (spaceBetweenXGrid2 * xIndex)
-#             else :
-#                 xPosGrid2 = startXGrid2 + (spaceBetweenXGrid2 * xIndex)
-#         else :
-#             xPosGrid2 = startXGrid2 + (spaceBetweenXGrid2 * xIndex)
-
-#         if((alternateInBetweenGrid2 == 1)               # If we can move and not set to alternateInBetween 
-#         and (yIndex > 0 and (yIndex % 2) > 0)           # on an alternateInBetween odd numbered (offset) y value  
-#         and (xIndex >= xAxisCount - 1)) :               # on the last position as an alternateInBetween which has 1 less x position
-#             yPosGrid2 = yPosGrid2 + spaceBetweenYGrid2  # Bump up the Y position to the next row
-#             xPosGrid2 = startXGrid2                     # Set the X position back to the start of a non alternateInBetween
-#             device.log(message='alternateInBetweenGrid2 last row', message_type='success')
-
-#         if (startOfXSlopeGrid2 != 0) and (sineOfXAngleGrid2 != 0) :
-#             hypotenuseGrid2 = xPosGrid2 - startOfXSlopeGrid2
-#             addToZHeightGrid2 = sineOfXAngleGrid2 * hypotenuseGrid2
-
-#         if canMove :
-#             device.move_absolute(
-#                 {
-#                     'kind': 'coordinate',
-#                     'args': {'x': xPosGrid2, 'y': yPosGrid2, 'z': addToZHeightGrid2}
-#                 },
-#                 100,
-#                 {
-#                     'kind': 'coordinate',
-#                     'args': {'x': 0, 'y': 0, 'z': 0}
-#                 }
-#             ) 
-#             if sequenceAfter2ndGridMoveId > 0 :
-#                 device.log(message='Execute sequence: ' + sequenceAfter2ndGridMove, message_type='success')
-#                 device.execute(sequenceAfter2ndGridMoveId) 
-#                 time.sleep(waitSeconds)
-
-#             moveCount += 1 # **** check this works with alternate inbetween and you don't end up loosing a or gaining an extra move
-
-#         if ((xPosGrid2 - 5) <= currentPositionX <= (xPosGrid2 + 5)) and ((yPosGrid2 - 5) <= currentPositionY <= (yPosGrid2 + 5)) :
-#             canMove = True
-
-#         if moveCount >= movesPerCycle :
-#             loopBreaked = True
-#             break
-
-#     if moveCount >= movesPerCycle :
-#         loopBreaked = True
-#         break
-
-# os.remove(configFileName)                                           # Write the current position of the 2nd grids x,y co-ordinates to the config
-# configContents = {evName: str(xPosGrid2) + "," + str(yPosGrid2)}
-# with open(configFileName, 'w') as f:
-#     json.dump(configContents, f)
-#     f.close()
-
-# if loopBreaked == False :
-#     device.write_pin(3,0,0)
-#     time.sleep(waitSeconds)
+# If loop finishes without breaking then signal that Grid2Grid has finished
+if loopBreaked == False :
+    device.write_pin(3,0,0)
+    time.sleep(waitSeconds)
