@@ -183,7 +183,7 @@ for plant in range(numberOfPlants):
         device.log(message='Turn the moves off and save the index', message_type='success')      
         canMove == False
         os.remove(configFileName)   # Write the current position of the 2nd grids x,y co-ordinates to the config
-        configContents = {evName: str(xPosGrid2) + "," + str(yPosGrid2)}
+        configContents = {evName: str(plant)}
         with open(configFileName, 'w') as f:
             json.dump(configContents, f)
             f.close()
