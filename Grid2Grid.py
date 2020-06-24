@@ -109,12 +109,12 @@ for yIndex in range(yPositionsGrid1):
 
         # If alternate inbetween and the modulus sum of indexes equals 0 add position
         if alternateInBetweenGrid1 == 1 and (((yIndex + xIndex) % 2) == 0):
-            gridPosition1 = GridPosition(yPosGrid1, yPosGrid1, addToZHeightGrid1)
+            gridPosition1 = GridPosition(xPosGrid1, yPosGrid1, addToZHeightGrid1)
             grid1Coordinates.append(gridPosition1)
 
         # If not alternate inbetween add position
         elif alternateInBetweenGrid1 == 0:
-            gridPosition1 = GridPosition(yPosGrid1, yPosGrid1, addToZHeightGrid1)
+            gridPosition1 = GridPosition(xPosGrid1, yPosGrid1, addToZHeightGrid1)
             grid1Coordinates.append(gridPosition1)
 
 # Load Grid2 x,y,z coordinates into a list (exactly the same as Grid1)
@@ -128,11 +128,11 @@ for yIndex in range(yPositionsGrid2):
             addToZHeightGrid2 = sineOfXAngleGrid2 * hypotenuseGrid2
 
         if alternateInBetweenGrid2 == 1 and (((yIndex + xIndex) % 2) == 0):
-            gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
+            gridPosition2 = GridPosition(xPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
         elif alternateInBetweenGrid2 == 0:
-            gridPosition2 = GridPosition(yPosGrid2, yPosGrid2, addToZHeightGrid2)
+            gridPosition2 = GridPosition(xPosGrid2, yPosGrid2, addToZHeightGrid2)
             grid2Coordinates.append(gridPosition2)
 
 # Check the number of items in both lists are the same
@@ -179,7 +179,7 @@ for plant in range(numberOfPlants):
 
         moveCount += 1 
 
-    if movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
+    if canMove == True and movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
         device.log(message='Turn the moves off and save the index', message_type='success')      
         canMove == False
         os.remove(configFileName)   # Write the current position of the 2nd grids x,y co-ordinates to the config
