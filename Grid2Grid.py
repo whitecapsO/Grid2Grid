@@ -181,7 +181,7 @@ for plant in range(numberOfPlants):
 
     if canMove == True and movesPerCycle > 0 and movesPerCycle == moveCount:    # Turn the moves off and save the index
         device.log(message='Turn the moves off and save the index', message_type='success')      
-        canMove == False
+        canMove = False
         os.remove(configFileName)   # Write the current position of the 2nd grids x,y co-ordinates to the config
         configContents = {evName: str(plant)}
         with open(configFileName, 'w') as f:
@@ -194,8 +194,8 @@ for plant in range(numberOfPlants):
             break
 
     elif canMove == False and savedMoveIndex == plant:  # Turn the moves on if we have reached the saved index
-        device.log(message=' Turn the moves on if we have reached the saved index', message_type='success')
-        canMove == True
+        device.log(message='Turn the moves on if we have reached the saved index', message_type='success')
+        canMove = True
 
 # If loop finishes without breaking then signal that Grid2Grid has finished
 if loopBreaked == False :
