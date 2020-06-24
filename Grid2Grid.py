@@ -140,7 +140,7 @@ device.log(message='grid1Coordinates: ' + str(len(grid1Coordinates)) + ' grid2Co
 
 # Now move 
 for plant in range(numberOfPlants):
-    if canMove :
+    if canMove == True :
         # Move Grid 1
         grid1Item = grid1Coordinates[plant]
         device.move_absolute(
