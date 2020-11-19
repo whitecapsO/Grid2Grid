@@ -53,7 +53,7 @@ alternateInBetweenGrid2 = get_config_value(farmware_name='Grid2Grid', config_nam
 sequenceAfter2ndGridMove = get_config_value(farmware_name='Grid2Grid', config_name='sequenceAfter2ndGridMove', value_type=str)
 
 # Delay constant as some calls to Farmduino are now not synchronous
-waitSeconds = 30
+waitSeconds = 3
 
 # Set config file and environment variable names
 configFileName = '/tmp/farmware/config.json'
